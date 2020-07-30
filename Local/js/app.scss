@@ -1,5 +1,6 @@
 
 $ec-boxshadow: 0px 4px 15px 0px rgba(0, 0, 0, 0.25);
+$ec-org: #ff671f;
 
 // Drat JS Overrides
 // ======================================================== 
@@ -56,7 +57,7 @@ $ec-boxshadow: 0px 4px 15px 0px rgba(0, 0, 0, 0.25);
 }
   //User Video Preview (move to left side)
 .ReactModal__Content.ReactModal__Content--after-open{
-  right: 66.5vw !important
+  right: 64.05vw !important
 }
   // Disable presentation buttons 
 #wc-footer div .footer-button__button.ax-outline, .more-button,
@@ -66,25 +67,24 @@ $ec-boxshadow: 0px 4px 15px 0px rgba(0, 0, 0, 0.25);
 
  // Container for video and audio controls
 .footer {
-  display: flex;
-  flex-direction: column;
-  flex-wrap: wrap;
   background-color: white !important;
   color: #18181C !important;
   background-image: none !important;
   font-family: 'Open Sans', Helvetica, sans-serif !important;
-  margin: 8px;
-  width: 5em;
-  height: 25%;
+  bottom: 11vh !important;
   position: absolute;
-  top: 35%;
-  left: -13.75vw
+  height: 10% !important;
+  width: 12rem !important;
+}
+
+.security-option-menu{
+  display: none;
 }
 
 #wc-footer {
-  width: 10em !important;
   border-radius: 16px;
   box-shadow: $ec-boxshadow;
+  margin-left: 1rem;
 }
 // audio bottom background 
 .join-audio.ax-outline {
@@ -96,10 +96,10 @@ $ec-boxshadow: 0px 4px 15px 0px rgba(0, 0, 0, 0.25);
   border-bottom: none !important;
 }
 
-.diaout-layer {
-  background-color: white !important;
+.diaout-layer, .dailog-join {
   font-family: 'Open Sans', Helvetica, sans-serif !important;
   color: #18181c;
+  background: none;
   bottom: 0px;
   width: 20% !important;
   position: absolute;
@@ -107,7 +107,10 @@ $ec-boxshadow: 0px 4px 15px 0px rgba(0, 0, 0, 0.25);
   height: 30% !important;
   margin: 5% 30% !important;
   border-radius: 16px;
-  box-shadow: $ec-boxshadow;
+}
+
+.title.close {
+  display: none !important;
 }
 
   //Disable tab buttons 
@@ -117,38 +120,40 @@ $ec-boxshadow: 0px 4px 15px 0px rgba(0, 0, 0, 0.25);
 
   //Buttons 
 .zm-btn--primary, .zm-btn--primary:hover {
-  background: #ff671f;
+  background: $ec-org;
   text-transform: uppercase;
   font-weight: 700;
   font-family: 'Montserrat', sans-serif !important;
 }
 
-.chat-control-receiver, .chat-control-receiver:hover {
-  background: #ff671f !important;
+.chat-control-receiver, .chat-control-receiver:hover, .btn-primary, .btn-primary:hover {
+  background: $ec-org !important;
+  border-color: $ec-org;
   font-family: 'Montserrat', sans-serif !important;
 }
 
-.zm-btn--primary, .zm-btn--primary:hover {
-  padding: 0 8px;
+.zm-btn--primary, .zm-btn--primary:hover, .chat-control-receiver, .chat-control-receiver:hover {
+  padding: 2px 8px;
+  border-radius: 8px !important;
 }
 
 .btn-default:hover, .open.dropup ,.dropup .btn-group, .pop-menu .btn-default:focus, .btn-default:active, .btn-default.active, .open .dropdown-toggle.btn-default{
-  background-color: #f4f5f7 !important;
-  border-radius: 8px;
+  background-color: $ec-org !important;
+  border-radius: 8px !important;
 }
 
 #wc-container-left{
-  width: 58.9% !important;
-  margin-left: 14vw;
   color: #18181C !important;
 }
 
-.main-layout, .sharing-layout {
-  border-radius: 16px;
+button.zm-btn.zm-btn--primary.zm-btn__outline--white.zm-btn--lg{
+  box-shadow: $ec-boxshadow;
 }
 
-#wc-container-right{
+// Chat Window
+#wc-container-right {
   color: #18181C !important;
+  box-shadow: $ec-boxshadow;
 }
 
 #wc-container-right .bottom {
@@ -157,4 +162,48 @@ $ec-boxshadow: 0px 4px 15px 0px rgba(0, 0, 0, 0.25);
 
 .chat-participant-header {
   border-top: none !important;
+  color: #18181c !important;
+}
+
+.nonverbal {
+  display: none !important;
+}
+
+button {
+  outline: none !important;
+}
+
+.btn-toolbar {
+  display: none;
+}
+
+.participants-footer {
+  border-top: 1px solid rgba(24, 24, 24, 0.25);
+}
+
+.list-group {
+    border-top-left-radius: 16px !important;
+    border-top-right-radius: 16px !important;
+}
+
+.chat-input {
+    border-bottom-left-radius: 16px !important;
+    border-bottom-right-radius: 16px !important;
+}
+
+.chat-container {
+    border-bottom-left-radius: 16px !important;
+    border-bottom-right-radius: 16px !important;
+}
+
+textarea#chat-textarea {
+  border-radius: 16px !important;
+  background-color: #f4f5f7;
+  width: 96% !important;
+  margin: 8px !important; 
+  padding: 10px !important;
+}
+
+textarea {
+  outline:none;
 }

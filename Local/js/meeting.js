@@ -35,7 +35,7 @@ const meetingConfig = {
     }
   })(),
   lang: tmpArgs.lang,
-  signature: "dVp3SlFHZndRX0dzTWdrZ1kyVWdSUS43NzQ4ODIxMjM5LjE1OTYwMzE5MzQ3MjQuMC5WMGZpbXhrWncvdlZyaWIyb0VHWGZVSFRqYUNFS1dKbGQwaTRDUzRwZlRvPQ==" || "",
+  signature: "dVp3SlFHZndRX0dzTWdrZ1kyVWdSUS43NzQ4ODIxMjM5LjE1OTYxMTk0ODc0NDkuMC5najVMQTNDSFlkbk9tN1ZuVmtYTTZEWGQrTC9xS1FvNXFwU3FsU3VTYm9vPQ==" || "",
   china: tmpArgs.china === "1",
 };
 
