@@ -119,20 +119,25 @@ class MyEditor extends React.Component {
     return "not-handled";
   };
 
-   onChange (editorState) {
+  onChange (editorState) {
     this.setState({
       editorState
     });
   };
+
+  hideNotes (){
+    // console.log('hide notes');
+    document.getElementById('draft-container').classList.add('hidden');
+  }
 
   render() {
     return (
       <div>
         <div id="notes-header">
           <div class="chat-participant-header">Notes</div>
-          <div id="btn-close-notes">
+          <button onClick={this.hideNotes} id="btn-close-notes">
             <i class="far fa-times-circle"></i>
-          </div>
+          </button>
         </div>
         <DraftailEditor
           enableHorizontalRule

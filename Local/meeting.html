@@ -13,7 +13,7 @@
     <div class="hidden" id="draft-container">
     </div>
     <div id="notes-button" class="left-tool-item show">
-        <button id="notes-open-button" type="button">
+        <button onclick="showNotes()" id="notes-open-button" type="button">
           <span class="img-layer">
             <i class="fad fa-edit fa-lg" id="notes-icon"></i>
           </span>
@@ -22,6 +22,13 @@
       </div>
 </body>
 <footer>
+    <script>
+        // Notes open button
+        function showNotes () {
+            // console.log('show notes');
+            document.getElementById('draft-container').classList.remove('hidden');
+        }
+    </script>
     <script src="https://kit.fontawesome.com/0e58f6988a.js" crossorigin="anonymous"></script>
     <script src="node_modules/react/umd/react.production.min.js"></script>
     <script src="node_modules/react-dom/umd/react-dom.production.min.js"></script>
