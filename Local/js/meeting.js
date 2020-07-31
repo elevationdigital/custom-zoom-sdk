@@ -1,4 +1,8 @@
 import { ZoomMtg } from "./zoom.js";
+import { EditorState, RichUtils } from "draft-js";
+import { DraftailEditor, BLOCK_TYPE, INLINE_STYLE } from "draftail";
+import React from 'react';
+import ReactDOM from 'react-dom';
 import './app.scss';
 
 const testTool = window.testTool;
@@ -35,7 +39,7 @@ const meetingConfig = {
     }
   })(),
   lang: tmpArgs.lang,
-  signature: "dVp3SlFHZndRX0dzTWdrZ1kyVWdSUS43NzQ4ODIxMjM5LjE1OTYxMTk0ODc0NDkuMC5najVMQTNDSFlkbk9tN1ZuVmtYTTZEWGQrTC9xS1FvNXFwU3FsU3VTYm9vPQ==" || "",
+  signature: "dVp3SlFHZndRX0dzTWdrZ1kyVWdSUS43NzQ4ODIxMjM5LjE1OTYyMTEwMTI3NjYuMC5zS3ltM3RpejlDZVFSRTF4MHB1TWtZaFJlSmdqVTNWZnpvVzlOWGw2MmZJPQ==" || "",
   china: tmpArgs.china === "1",
 };
 
@@ -67,6 +71,8 @@ function beginJoin(signature) {
             success: function (res) {
               document.addEventListener('DOMContentLoaded', function() {
                 document.getElementById('wc-container-left').classList.add('show-participants');
+                var wrapper = document.createElement('p');
+                document.getElementById("wc-footer-left").appendChild(wrapper);
               }, false);
               console.log("success getCurrentUser", res.result.currentUser);
             },
@@ -85,3 +91,91 @@ function beginJoin(signature) {
 
 beginJoin(meetingConfig.signature);
 
+class MyEditor extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {editorState: EditorState.createEmpty()};
+    this.onChange = (editorState) => this.setState({editorState});
+    this.setEditor = (editor) => {
+      this.editor = editor;
+    };
+    this.focusEditor = () => {
+      if (this.editor) {
+        this.editor.focus();
+      }
+    };
+  }
+
+  componentDidMount() {
+    this.focusEditor();
+  }
+
+  handleKeyCommand (command, editorState) {
+    const newState = RichUtils.handleKeyCommand(editorState, command);
+    if (newState) {
+      this.onChange(newState);
+      return "handled";
+    }
+    return "not-handled";
+  };
+
+  onChange (editorState) {
+    this.setState({
+      editorState
+    });
+  };
+
+  hideNotes (){
+    // console.log('hide notes');
+    document.getElementById('draft-container').classList.add('hidden');
+  }
+
+  render() {
+    return (
+      <div>
+        <div id="notes-header">
+          <div class="chat-participant-header">Notes</div>
+          <button onClick={this.hideNotes} id="btn-close-notes">
+            <i class="far fa-times-circle"></i>
+          </button>
+        </div>
+        <DraftailEditor
+          enableHorizontalRule
+          enableLineBreak
+          showUndoControl
+          showRedoControl
+          spellCheck
+          placeholder={''}
+          editorState={this.state.editorState}
+          handleKeyCommand={this.handleKeyCommand}
+          onChange={this.onChange}
+          blockTypes={[
+            { type: BLOCK_TYPE.HEADER_ONE },
+            { type: BLOCK_TYPE.HEADER_TWO },
+            { type: BLOCK_TYPE.HEADER_THREE },
+            { type: BLOCK_TYPE.BLOCKQUOTE },
+            { type: BLOCK_TYPE.UNORDERED_LIST_ITEM },
+            { type: BLOCK_TYPE.ORDERED_LIST_ITEM }
+          ]}
+          inlineStyles={[
+            { type: INLINE_STYLE.BOLD },
+            { type: INLINE_STYLE.ITALIC },
+            { type: INLINE_STYLE.UNDERLINE }
+          ]}
+        />
+      </div>
+    );
+  }
+}
+
+const styles = {
+  editor: {
+    border: '1px solid gray',
+    minHeight: '6em'
+  }
+};
+
+ReactDOM.render(
+   <MyEditor />,
+  document.getElementById('draft-container')
+);

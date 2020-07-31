@@ -1,6 +1,7 @@
 
 $ec-boxshadow: 0px 4px 15px 0px rgba(0, 0, 0, 0.25);
 $ec-org: #ff671f;
+$ec-slate: #f4f5f7;
 
 // Drat JS Overrides
 // ======================================================== 
@@ -8,12 +9,16 @@ $ec-org: #ff671f;
   width: 100% !important;
   background-color: #f4f5f7 !important;
   border: none !important;
-  padding: 1em 1.5em !important;
+  border-radius: 16px;
+  padding: 1.5em !important;
   overflow: hidden;
   * {
     font-family: 'Open Sans', Helvetica, sans-serif;
   }
   .Draftail-Toolbar {
+    width: 100% !important;
+    height: auto;
+    display: flex;
     background: none !important;
     padding-bottom: 1em !important;
     background-color: transparent !important;
@@ -34,6 +39,10 @@ $ec-org: #ff671f;
   }
   .DraftEditor-root {
     color: #18181C !important;
+    height: 63vh;
+    width: 32vw;
+    overflow-y: scroll;
+    overflow-x: hidden;
   }
   .DraftEditor-editorContainer,
   .public-DraftEditorPlaceholder-root {
@@ -49,11 +58,39 @@ $ec-org: #ff671f;
   }
 }
 
+#draft-container{
+  z-index: 1;
+  position: fixed;
+  background: white;
+  padding: 10px;
+  border-radius: 16px;
+  box-shadow:  0px 4px 15px 0px rgba(0, 0, 0, 0.25);
+  z-index: 1;
+  position: fixed;
+  top: 7vh;
+  height: 80vh;
+  right: 3rem;
+}
+
+#draft-container div .chat-participant-header {
+  text-align: left;
+}
+#notes-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#btn-close-notes {
+  margin-right: 1rem;
+}
+
 // Zoom Overrides 
 // ======================================================== 
   //Body
 #zmmtg-root{
-  background-color: #f4f5f7;
+  background-color: $ec-slate;
 }
   //User Video Preview (move to left side)
 .ReactModal__Content.ReactModal__Content--after-open{
@@ -67,14 +104,13 @@ $ec-org: #ff671f;
 
  // Container for video and audio controls
 .footer {
-  background-color: white !important;
   color: #18181C !important;
   background-image: none !important;
   font-family: 'Open Sans', Helvetica, sans-serif !important;
   bottom: 11vh !important;
   position: absolute;
   height: 10% !important;
-  width: 12rem !important;
+  width: 16rem !important;
 }
 
 .security-option-menu{
@@ -83,7 +119,6 @@ $ec-org: #ff671f;
 
 #wc-footer {
   border-radius: 16px;
-  box-shadow: $ec-boxshadow;
   margin-left: 1rem;
 }
 // audio bottom background 
@@ -150,6 +185,14 @@ button.zm-btn.zm-btn--primary.zm-btn__outline--white.zm-btn--lg{
   box-shadow: $ec-boxshadow;
 }
 
+.left-tool-item {
+  background: white;
+  border-radius: 16px;
+  height: 67% !important;
+  margin-right: 2rem;
+  box-shadow: $ec-boxshadow
+}
+
 // Chat Window
 #wc-container-right {
   color: #18181C !important;
@@ -171,6 +214,34 @@ button.zm-btn.zm-btn--primary.zm-btn__outline--white.zm-btn--lg{
 
 button {
   outline: none !important;
+}
+
+#notes-label{
+  word-break: break-all; 
+  text-overflow: ellipsis; 
+  overflow: hidden; 
+  white-space: nowrap; 
+  display: block; 
+  outline: none;
+  font-size: 12px;
+  font-family: 'Open Sans';
+  color: #18181c;
+}
+
+#notes-button {
+  height: auto !important;
+}
+
+#notes-icon {
+  margin-bottom: 10px;
+}
+
+#notes-button {
+  position: fixed;
+  padding: 12px 27px;
+  bottom: 9.65rem;
+  left: 16.25rem;
+  z-index: 1;
 }
 
 .btn-toolbar {
@@ -198,7 +269,7 @@ button {
 
 textarea#chat-textarea {
   border-radius: 16px !important;
-  background-color: #f4f5f7;
+  background-color: $ec-slate;
   width: 96% !important;
   margin: 8px !important; 
   padding: 10px !important;
