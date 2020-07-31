@@ -1,0 +1,209 @@
+
+$ec-boxshadow: 0px 4px 15px 0px rgba(0, 0, 0, 0.25);
+$ec-org: #ff671f;
+
+// Drat JS Overrides
+// ======================================================== 
+.Draftail-Editor {
+  width: 100% !important;
+  background-color: #f4f5f7 !important;
+  border: none !important;
+  padding: 1em 1.5em !important;
+  overflow: hidden;
+  * {
+    font-family: 'Open Sans', Helvetica, sans-serif;
+  }
+  .Draftail-Toolbar {
+    background: none !important;
+    padding-bottom: 1em !important;
+    background-color: transparent !important;
+  }
+  .Draftail-ToolbarButton {
+    padding: 0 0.75em 0.5em !important;
+    margin: 0 2px !important;
+  }
+  .Draftail-ToolbarGroup+.Draftail-ToolbarGroup::before {
+    margin: 5px 0.5em 0 !important;
+  }
+  .Draftail-ToolbarButton--active {
+    background: #18181C !important;
+    border-radius: 50px !important;
+    &>span {
+      color: white !important;
+    }
+  }
+  .DraftEditor-root {
+    color: #18181C !important;
+  }
+  .DraftEditor-editorContainer,
+  .public-DraftEditorPlaceholder-root {
+    margin-top: 1em;
+  }
+  .public-DraftEditorPlaceholder-root>div {
+    color: rgba(24, 24, 24, 0.25) !important;
+  }
+  .Draftail-block--blockquote {
+    margin: 0 !important;
+    padding-left: 1em !important;
+    border-left: 1px solid rgba(24, 24, 24, 0.1);
+  }
+}
+
+// Zoom Overrides 
+// ======================================================== 
+  //Body
+#zmmtg-root{
+  background-color: #f4f5f7;
+}
+  //User Video Preview (move to left side)
+.ReactModal__Content.ReactModal__Content--after-open{
+  right: 64.05vw !important
+}
+  // Disable presentation buttons 
+#wc-footer div .footer-button__button.ax-outline, .more-button,
+#wc-footer div .footer__leave-btn.ax-outline {
+  display: none;
+}
+
+ // Container for video and audio controls
+.footer {
+  background-color: white !important;
+  color: #18181C !important;
+  background-image: none !important;
+  font-family: 'Open Sans', Helvetica, sans-serif !important;
+  bottom: 11vh !important;
+  position: absolute;
+  height: 10% !important;
+  width: 12rem !important;
+}
+
+.security-option-menu{
+  display: none;
+}
+
+#wc-footer {
+  border-radius: 16px;
+  box-shadow: $ec-boxshadow;
+  margin-left: 1rem;
+}
+// audio bottom background 
+.join-audio.ax-outline {
+  background-color: transparent !important;
+}
+
+// modal for joining audio 
+#dialog-join .top, #dialog-invite .top {
+  border-bottom: none !important;
+}
+
+.diaout-layer, .dailog-join {
+  font-family: 'Open Sans', Helvetica, sans-serif !important;
+  color: #18181c;
+  background: none;
+  bottom: 0px;
+  width: 20% !important;
+  position: absolute;
+  text-align: center;
+  height: 30% !important;
+  margin: 5% 30% !important;
+  border-radius: 16px;
+}
+
+.title.close {
+  display: none !important;
+}
+
+  //Disable tab buttons 
+#dialog-join .tab {
+  display: none;
+}
+
+  //Buttons 
+.zm-btn--primary, .zm-btn--primary:hover {
+  background: $ec-org;
+  text-transform: uppercase;
+  font-weight: 700;
+  font-family: 'Montserrat', sans-serif !important;
+}
+
+.chat-control-receiver, .chat-control-receiver:hover, .btn-primary, .btn-primary:hover {
+  background: $ec-org !important;
+  border-color: $ec-org;
+  font-family: 'Montserrat', sans-serif !important;
+}
+
+.zm-btn--primary, .zm-btn--primary:hover, .chat-control-receiver, .chat-control-receiver:hover {
+  padding: 2px 8px;
+  border-radius: 8px !important;
+}
+
+.btn-default:hover, .open.dropup ,.dropup .btn-group, .pop-menu .btn-default:focus, .btn-default:active, .btn-default.active, .open .dropdown-toggle.btn-default{
+  background-color: $ec-org !important;
+  border-radius: 8px !important;
+}
+
+#wc-container-left{
+  color: #18181C !important;
+}
+
+button.zm-btn.zm-btn--primary.zm-btn__outline--white.zm-btn--lg{
+  box-shadow: $ec-boxshadow;
+}
+
+// Chat Window
+#wc-container-right {
+  color: #18181C !important;
+  box-shadow: $ec-boxshadow;
+}
+
+#wc-container-right .bottom {
+  display: none;
+}
+
+.chat-participant-header {
+  border-top: none !important;
+  color: #18181c !important;
+}
+
+.nonverbal {
+  display: none !important;
+}
+
+button {
+  outline: none !important;
+}
+
+.btn-toolbar {
+  display: none;
+}
+
+.participants-footer {
+  border-top: 1px solid rgba(24, 24, 24, 0.25);
+}
+
+.list-group {
+    border-top-left-radius: 16px !important;
+    border-top-right-radius: 16px !important;
+}
+
+.chat-input {
+    border-bottom-left-radius: 16px !important;
+    border-bottom-right-radius: 16px !important;
+}
+
+.chat-container {
+    border-bottom-left-radius: 16px !important;
+    border-bottom-right-radius: 16px !important;
+}
+
+textarea#chat-textarea {
+  border-radius: 16px !important;
+  background-color: #f4f5f7;
+  width: 96% !important;
+  margin: 8px !important; 
+  padding: 10px !important;
+}
+
+textarea {
+  outline:none;
+}

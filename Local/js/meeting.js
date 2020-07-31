@@ -1,4 +1,6 @@
-import { ZoomMtg } from "@zoomus/websdk";
+import { ZoomMtg } from "./zoom.js";
+import './app.scss';
+
 const testTool = window.testTool;
 // get meeting args from url
 const tmpArgs = testTool.parseQuery();
@@ -33,7 +35,7 @@ const meetingConfig = {
     }
   })(),
   lang: tmpArgs.lang,
-  signature: tmpArgs.signature || "",
+  signature: "dVp3SlFHZndRX0dzTWdrZ1kyVWdSUS43NzQ4ODIxMjM5LjE1OTYxMTk0ODc0NDkuMC5najVMQTNDSFlkbk9tN1ZuVmtYTTZEWGQrTC9xS1FvNXFwU3FsU3VTYm9vPQ==" || "",
   china: tmpArgs.china === "1",
 };
 
@@ -63,6 +65,9 @@ function beginJoin(signature) {
           ZoomMtg.getAttendeeslist({});
           ZoomMtg.getCurrentUser({
             success: function (res) {
+              document.addEventListener('DOMContentLoaded', function() {
+                document.getElementById('wc-container-left').classList.add('show-participants');
+              }, false);
               console.log("success getCurrentUser", res.result.currentUser);
             },
           });
@@ -79,3 +84,4 @@ function beginJoin(signature) {
 }
 
 beginJoin(meetingConfig.signature);
+

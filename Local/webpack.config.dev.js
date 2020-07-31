@@ -28,10 +28,6 @@ module.exports = {
                 loader: 'babel-loader'
             },
             {
-                test: /\.css$/,
-                loader: 'style-loader!css-loader'
-            },
-            {
                 test: /\.(jpg|png|svg)$/,
                 loader: 'url-loader?limit=500000'
             },
@@ -40,8 +36,8 @@ module.exports = {
                 loader: 'url-loader?limit=50000'
             },
             {
-                test: /\.scss$/,
-                loader: 'style!css!sass'
+                test:/\.(s*)css$/,
+                use:['style-loader','css-loader', 'sass-loader']
             }
         ]
     },

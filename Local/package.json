@@ -20,6 +20,7 @@
   "license": "ISC",
   "dependencies": {
     "@zoomus/websdk": "^1.7.10",
+    "draft-js": "^0.11.6",
     "jquery": "^3.4.1",
     "lodash": "^4.17.14",
     "react": "16.8.6",
@@ -45,6 +46,8 @@
     "eslint-plugin-jsx-a11y": "^6.1.2",
     "eslint-plugin-react": "^7.11.1",
     "file-loader": "^2.0.0",
+    "node-sass": "^4.0.0",
+    "sass-loader": "^7.2.0",
     "style-loader": "^0.23.1",
     "url-loader": "^1.1.2",
     "webpack": "^4.26.1",
