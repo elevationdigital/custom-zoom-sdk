@@ -1,5 +1,8 @@
 const path = require('path');
 const webpack = require('webpack');
+const dotenv = require('dotenv').config( {
+    path: path.join(__dirname, '.env')
+  } );
 const args = process.argv.slice(2);
 const https = args[2] === '--https' && args[3] === 'true';
 
@@ -77,9 +80,15 @@ module.exports = {
     mode: 'development',
     plugins: [
         new webpack.HotModuleReplacementPlugin(),
+        new webpack.DefinePlugin( {
+            "process.env": JSON.stringify(dotenv.parsed)
+          } ),
         new webpack.DefinePlugin({
             'process.env.NODE_ENV': JSON.stringify('development'),
             'process.env.BABEL_ENV': JSON.stringify('development'),
         })
     ],
+    node: {
+        fs: "empty"
+     }
 };

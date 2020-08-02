@@ -39,7 +39,7 @@ const meetingConfig = {
     }
   })(),
   lang: tmpArgs.lang,
-  signature: "dVp3SlFHZndRX0dzTWdrZ1kyVWdSUS43NzQ4ODIxMjM5LjE1OTYyMTEwMTI3NjYuMC5zS3ltM3RpejlDZVFSRTF4MHB1TWtZaFJlSmdqVTNWZnpvVzlOWGw2MmZJPQ==" || "",
+  signature: tmpArgs.signature,
   china: tmpArgs.china === "1",
 };
 
