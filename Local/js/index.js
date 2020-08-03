@@ -74,8 +74,8 @@ class ZoomLogin extends React.Component {
     onNavigate(event){
       event.preventDefault();
       let uri = `/meeting.html?name=${this.state.name}&mn=${this.state.meetingID}&email=&pwd=${this.state.userPassword}&role=0&lang=en-US&signature=${this.state.signature}&china=0&apiKey=${this.state.apiKey}`;
-      console.log('url is', uri);
-      setTimeout(function(){ window.location.href = uri }, 3000);
+      // console.log('url is', uri);
+      setTimeout(function(){ window.location.href = uri }, 1000);
     }
   
     render() {
@@ -88,11 +88,13 @@ class ZoomLogin extends React.Component {
           </div>
           <div id="login-form">
             <div id="login-heading">
-              <h4>Welcome to Staff Advance 2020</h4>
-              <p>Please enter your name along with the provied password.</p>
+              <h3 className="sec-font">Welcome to Staff Advance 2020</h3>
+              <p  className="prim-font regular">Please enter your name along with the provied password.</p>
             </div>
             <div id="login-fields">
+              <p  className="sec-font">Name</p>
               <input onChange={this.handleNameChange.bind(this)} id="name-input"></input>
+              <p  className="sec-font">Password</p>
               <input onChange={this.handlePasswordChange.bind(this)} id="password-input"></input>
             </div>
             <button onClick={this.onNavigate.bind(this)} disabled={this.state.disabled} id="signin-btn">Join</button>
@@ -101,9 +103,6 @@ class ZoomLogin extends React.Component {
       );
     }
   }
-  
-  const styles = {
-  };
   
   ReactDOM.render(
      <ZoomLogin />,
