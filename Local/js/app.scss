@@ -81,8 +81,19 @@ $ec-slate: #f4f5f7;
   justify-content: space-between;
   align-items: center;
 }
+#notes-render{
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  z-index: -999;
+  margin: 64px;
+}
 
 #btn-close-notes {
+  margin-right: 1rem;
+}
+
+#btn-print-notes {
   margin-right: 1rem;
 }
 
@@ -239,7 +250,7 @@ button {
 #notes-button {
   position: fixed;
   padding: 12px 27px;
-  bottom: 9.65rem;
+  bottom: 9.09rem;
   left: 16.25rem;
   z-index: 1;
 }

@@ -9,10 +9,10 @@ class ZoomLogin extends React.Component {
       this.state = {
         name: '',
         zoomPassword: '',
+        disabled: false,
         userPassword:'',
         signature: '',
         meetingID: '',
-        china: '0',
         apiKey: '', 
       };
     }
@@ -20,8 +20,11 @@ class ZoomLogin extends React.Component {
     componentDidMount() {
       // get id and pw 
       this.setState({
+        name: '',
         meetingID: process.env.REACT_APP_ZOOM_MEETING_NUMBER,
         zoomPassword: process.env.REACT_APP_ZOOM_MEETING_PW,
+        disabled: true,
+        apiKey: process.env.REACT_APP_ZOOM_API_KEY,
       });
 
       // get signature
@@ -53,18 +56,26 @@ class ZoomLogin extends React.Component {
     }
 
     handlePasswordChange(event){
-      let button = document.getElementById('signin-btn');
       this.setState({
         userPassword: event.target.value
       })
       if(_.isEqual(this.state.zoomPassword, event.target.value)){
-        button.disabled = false;
+        this.setState({
+          disabled: false
+        });
       }
       else{
-        button.disabled = true;
+        this.setState({
+          disabled: true
+        });
       }
+    } 
+
+    onNavigate(event){
+      event.preventDefault();
+      let uri = `name=${this.state.name}&mn=${this.state.meetingID}&email=&pwd=${this.state.userPassword}&role=0&lang=en-US&signature=${this.state.signature}&china=0&apiKey=${this.state.apiKey}`;
+      setTimeout(function(){ window.location.pathname = decodeURI("/meeting.html%3F" )+ uri }, 3000);
     }
-      
   
     render() {
       return (
@@ -83,7 +94,7 @@ class ZoomLogin extends React.Component {
               <input onChange={this.handleNameChange.bind(this)} id="name-input"></input>
               <input onChange={this.handlePasswordChange.bind(this)} id="password-input"></input>
             </div>
-            <button disabled id="signin-btn">Join</button>
+            <button onClick={this.onNavigate.bind(this)} disabled={this.state.disabled} id="signin-btn">Join</button>
           </div>
         </div>
       );

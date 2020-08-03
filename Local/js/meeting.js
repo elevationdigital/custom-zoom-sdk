@@ -1,7 +1,9 @@
 import { ZoomMtg } from "./zoom.js";
-import { EditorState, RichUtils } from "draft-js";
+import { EditorState, RichUtils, convertToRaw,  } from "draft-js";
 import { DraftailEditor, BLOCK_TYPE, INLINE_STYLE } from "draftail";
-import React from 'react';
+import draftToHtml from 'draftjs-to-html';
+import ReactToPrint from "react-to-print";
+import React, {FunctionComponent} from 'react';
 import ReactDOM from 'react-dom';
 import './app.scss';
 
@@ -91,6 +93,23 @@ function beginJoin(signature) {
 
 beginJoin(meetingConfig.signature);
 
+class ComponentToPrint extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+
+  createMarkup(params) {
+    return {__html: params};
+  }
+  render(){
+   
+    return (
+      <div id="notes-render" dangerouslySetInnerHTML={this.createMarkup(draftToHtml(this.props.content))}>
+      </div>
+    );
+  }
+}
+
 class MyEditor extends React.Component {
   constructor(props) {
     super(props);
@@ -135,9 +154,19 @@ class MyEditor extends React.Component {
       <div>
         <div id="notes-header">
           <div class="chat-participant-header">Notes</div>
-          <button onClick={this.hideNotes} id="btn-close-notes">
-            <i class="far fa-times-circle"></i>
-          </button>
+          <div>
+            <ReactToPrint
+              trigger={() => 
+                <button onClick={console.log('print call')} id="btn-print-notes">
+                  <i class="fas fa-print"></i>
+                </button>
+              }
+              content={() => this.componentRef}
+            />
+            <button onClick={this.hideNotes} id="btn-close-notes">
+              <i class="far fa-times-circle"></i>
+            </button>
+          </div>
         </div>
         <DraftailEditor
           enableHorizontalRule
@@ -163,7 +192,8 @@ class MyEditor extends React.Component {
             { type: INLINE_STYLE.UNDERLINE }
           ]}
         />
-      </div>
+        <ComponentToPrint ref={el => this.componentRef = el} content={convertToRaw(this.state.editorState.getCurrentContent())}/>
+      </div>      
     );
   }
 }
