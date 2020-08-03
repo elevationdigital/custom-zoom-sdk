@@ -73,8 +73,9 @@ class ZoomLogin extends React.Component {
 
     onNavigate(event){
       event.preventDefault();
-      let uri = `name=${this.state.name}&mn=${this.state.meetingID}&email=&pwd=${this.state.userPassword}&role=0&lang=en-US&signature=${this.state.signature}&china=0&apiKey=${this.state.apiKey}`;
-      setTimeout(function(){ window.location.pathname = decodeURI("/meeting.html%3F" )+ uri }, 3000);
+      let uri = `/meeting.html?name=${this.state.name}&mn=${this.state.meetingID}&email=&pwd=${this.state.userPassword}&role=0&lang=en-US&signature=${this.state.signature}&china=0&apiKey=${this.state.apiKey}`;
+      console.log('url is', uri);
+      setTimeout(function(){ window.location.href = uri }, 3000);
     }
   
     render() {
