@@ -1,160 +1,110 @@
-import { ZoomMtg } from "@zoomus/websdk";
+import React from 'react';
+import ReactDOM from 'react-dom';
+import _ from 'lodash';
+import './app.scss';
 
-console.log("checkSystemRequirements");
-console.log(JSON.stringify(ZoomMtg.checkSystemRequirements()));
-
-// it's option if you want to change the WebSDK dependency link resources. setZoomJSLib must be run at first
-// if (!china) ZoomMtg.setZoomJSLib('https://source.zoom.us/1.7.10/lib', '/av'); // CDN version default
-// else ZoomMtg.setZoomJSLib('https://jssdk.zoomus.cn/1.7.10/lib', '/av'); // china cdn option
-// ZoomMtg.setZoomJSLib('http://localhost:9999/node_modules/@zoomus/websdk/dist/lib', '/av'); // Local version default, Angular Project change to use cdn version
-ZoomMtg.preLoadWasm();
-ZoomMtg.prepareJssdk();
-
-const API_KEY = "uZwJQGfwQ_GsMgkgY2UgRQ";
-
-/**
- * NEVER PUT YOUR ACTUAL API SECRET IN CLIENT SIDE CODE, THIS IS JUST FOR QUICK PROTOTYPING
- * The below generateSignature should be done server side as not to expose your api secret in public
- * You can find an eaxmple in here: https://marketplace.zoom.us/docs/sdk/native-sdks/Web-Client-SDK/tutorial/generate-signature
- */
-const API_SECRET = "APWCJ0Z2HMBrxCuopcNGJW0wpjea5z5lFIcx";
-
-testTool = window.testTool;
-document.getElementById("display_name").value =
-  "Local" +
-  ZoomMtg.getJSSDKVersion()[0] +
-  testTool.detectOS() +
-  "#" +
-  testTool.getBrowserInfo();
-document.getElementById("meeting_number").value = testTool.getCookie(
-  "meeting_number"
-);
-document.getElementById("meeting_pwd").value = testTool.getCookie(
-  "meeting_pwd"
-);
-if (testTool.getCookie("meeting_lang"))
-  document.getElementById("meeting_lang").value = testTool.getCookie(
-    "meeting_lang"
-  );
-
-document.getElementById("meeting_lang").addEventListener("change", (e) => {
-  testTool.setCookie(
-    "meeting_lang",
-    document.getElementById("meeting_lang").value
-  );
-  $.i18n.reload(document.getElementById("meeting_lang").value);
-  ZoomMtg.reRender({ lang: document.getElementById("meeting_lang").value });
-});
-
-// copy zoom invite link to mn, autofill mn and pwd.
-document
-  .getElementById("meeting_number")
-  .addEventListener("input", function (e) {
-    let tmpMn = e.target.value.replace(/([^0-9])+/i, "");
-    if (tmpMn.match(/([0-9]{9,11})/)) {
-      tmpMn = tmpMn.match(/([0-9]{9,11})/)[1];
+class ZoomLogin extends React.Component {
+    constructor(props) {
+      super(props);
+      this.state = {
+        name: '',
+        zoomPassword: '',
+        disabled: false,
+        userPassword:'',
+        signature: '',
+        meetingID: '',
+        apiKey: '', 
+      };
     }
-    let tmpPwd = e.target.value.match(/pwd=([\d,\w]+)/);
-    if (tmpPwd) {
-      document.getElementById("meeting_pwd").value = tmpPwd[1];
-      testTool.setCookie("meeting_pwd", tmpPwd[1]);
+  
+    componentDidMount() {
+      // get id and pw 
+      this.setState({
+        name: '',
+        meetingID: process.env.REACT_APP_ZOOM_MEETING_NUMBER,
+        zoomPassword: process.env.REACT_APP_ZOOM_MEETING_PW,
+        disabled: true,
+        apiKey: process.env.REACT_APP_ZOOM_API_KEY,
+      });
+
+      // get signature
+
+      let myHeaders = new Headers();
+      let fields = {
+        meetingNumber : 7748821239,
+        role: 0
+      }
+      myHeaders.append('Content-Type', 'application/json');
+
+      fetch('https://zoom-web-sig.herokuapp.com', {
+          method: 'POST',
+          headers: myHeaders,
+          cache: 'default',
+          body: JSON.stringify(fields)
+      }).then((response) => response.json())
+        .then(data => {
+          this.setState({
+            signature: data.signature
+          });
+        });
     }
-    document.getElementById("meeting_number").value = tmpMn;
-    testTool.setCookie(
-      "meeting_number",
-      document.getElementById("meeting_number").value
-    );
-  });
 
-document.getElementById("clear_all").addEventListener("click", (e) => {
-  testTool.deleteAllCookies();
-  document.getElementById("display_name").value = "";
-  document.getElementById("meeting_number").value = "";
-  document.getElementById("meeting_pwd").value = "";
-  document.getElementById("meeting_lang").value = "en-US";
-  document.getElementById("meeting_role").value = 0;
-  window.location.href = "/index.html";
-});
+    handleNameChange(event){
+      this.setState({
+        name: event.target.value
+      })
+    }
 
-document.getElementById("join_meeting").addEventListener("click", (e) => {
-  e.preventDefault();
+    handlePasswordChange(event){
+      this.setState({
+        userPassword: event.target.value
+      })
+      if(_.isEqual(this.state.zoomPassword, event.target.value)){
+        this.setState({
+          disabled: false
+        });
+      }
+      else{
+        this.setState({
+          disabled: true
+        });
+      }
+    } 
 
-  const meetingConfig = testTool.getMeetingConfig();
-  if (!meetingConfig.mn || !meetingConfig.name) {
-    alert("Meeting number or username is empty");
-    return false;
+    onNavigate(event){
+      event.preventDefault();
+      let uri = `/meeting.html?name=${this.state.name}&mn=${this.state.meetingID}&email=&pwd=${this.state.userPassword}&role=0&lang=en-US&signature=${this.state.signature}&china=0&apiKey=${this.state.apiKey}`;
+      // console.log('url is', uri);
+      setTimeout(function(){ window.location.href = uri }, 1000);
+    }
+  
+    render() {
+      return (
+        <div id="login-root">
+          <div id="splash">
+            <div id="spl-gradient"></div>
+            <img id="spl-logo" src={require('../img/logo.png')} />
+            <img id="spl-background" src={require('../img/background.png')} />
+          </div>
+          <div id="login-form">
+            <div id="login-heading">
+              <h3 className="sec-font">Welcome to Staff Advance 2020</h3>
+              <p  className="prim-font regular">Please enter your name along with the provied password.</p>
+            </div>
+            <div id="login-fields">
+              <p  className="sec-font">Name</p>
+              <input onChange={this.handleNameChange.bind(this)} id="name-input"></input>
+              <p  className="sec-font">Password</p>
+              <input onChange={this.handlePasswordChange.bind(this)} id="password-input"></input>
+            </div>
+            <button onClick={this.onNavigate.bind(this)} disabled={this.state.disabled} id="signin-btn">Join</button>
+          </div>
+        </div>
+      );
+    }
   }
-  testTool.setCookie("meeting_number", meetingConfig.mn);
-  testTool.setCookie("meeting_pwd", meetingConfig.pwd);
-
-  const signature = ZoomMtg.generateSignature({
-    meetingNumber: meetingConfig.mn,
-    apiKey: API_KEY,
-    apiSecret: API_SECRET,
-    role: meetingConfig.role,
-    success: function (res) {
-      console.log(res.result);
-      meetingConfig.signature = res.result;
-      meetingConfig.apiKey = API_KEY;
-      const joinUrl = "/meeting.html?" + testTool.serialize(meetingConfig);
-      console.log(joinUrl);
-      window.open(joinUrl, "_blank");
-    },
-  });
-});
-
-// click copy jon link button
-window.copyJoinLink = function (element) {
-  const meetingConfig = testTool.getMeetingConfig();
-  if (!meetingConfig.mn || !meetingConfig.name) {
-    alert("Meeting number or username is empty");
-    return false;
-  }
-  const signature = ZoomMtg.generateSignature({
-    meetingNumber: meetingConfig.mn,
-    apiKey: API_KEY,
-    apiSecret: API_SECRET,
-    role: meetingConfig.role,
-    success: function (res) {
-      console.log(res.result);
-      meetingConfig.signature = res.result;
-      meetingConfig.apiKey = API_KEY;
-      const joinUrl =
-        testTool.getCurrentDomain() +
-        "/meeting.html?" +
-        testTool.serialize(meetingConfig);
-      $(element).attr("link", joinUrl);
-      const $temp = $("<input>");
-      $("body").append($temp);
-      $temp.val($(element).attr("link")).select();
-      document.execCommand("copy");
-      $temp.remove();
-    },
-  });
-};
-
-// click join iframe buttong
-document.getElementById("join_iframe").addEventListener("click", function (e) {
-  e.preventDefault();
-  const meetingConfig = testTool.getMeetingConfig();
-  if (!meetingConfig.mn || !meetingConfig.name) {
-    alert("Meeting number or username is empty");
-    return false;
-  }
-  const signature = ZoomMtg.generateSignature({
-    meetingNumber: meetingConfig.mn,
-    apiKey: API_KEY,
-    apiSecret: API_SECRET,
-    role: meetingConfig.role,
-    success: function (res) {
-      console.log(res.result);
-      meetingConfig.signature = res.result;
-      meetingConfig.apiKey = API_KEY;
-      const joinUrl =
-        testTool.getCurrentDomain() +
-        "/meeting.html?" +
-        testTool.serialize(meetingConfig);
-      testTool.createZoomNode("websdk-iframe", joinUrl);
-    },
-  });
-});
+  
+  ReactDOM.render(
+     <ZoomLogin />,
+    document.getElementById('login-container')
+  );

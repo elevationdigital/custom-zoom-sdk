@@ -1,7 +1,9 @@
 import { ZoomMtg } from "./zoom.js";
-import { EditorState, RichUtils } from "draft-js";
+import { EditorState, RichUtils, convertToRaw,  } from "draft-js";
 import { DraftailEditor, BLOCK_TYPE, INLINE_STYLE } from "draftail";
-import React from 'react';
+import draftToHtml from 'draftjs-to-html';
+import ReactToPrint from "react-to-print";
+import React, {FunctionComponent} from 'react';
 import ReactDOM from 'react-dom';
 import './app.scss';
 
@@ -39,7 +41,7 @@ const meetingConfig = {
     }
   })(),
   lang: tmpArgs.lang,
-  signature: "dVp3SlFHZndRX0dzTWdrZ1kyVWdSUS43NzQ4ODIxMjM5LjE1OTYyMTEwMTI3NjYuMC5zS3ltM3RpejlDZVFSRTF4MHB1TWtZaFJlSmdqVTNWZnpvVzlOWGw2MmZJPQ==" || "",
+  signature: tmpArgs.signature,
   china: tmpArgs.china === "1",
 };
 
@@ -71,10 +73,9 @@ function beginJoin(signature) {
             success: function (res) {
               document.addEventListener('DOMContentLoaded', function() {
                 document.getElementById('wc-container-left').classList.add('show-participants');
-                var wrapper = document.createElement('p');
-                document.getElementById("wc-footer-left").appendChild(wrapper);
               }, false);
               console.log("success getCurrentUser", res.result.currentUser);
+              document.getElementById('notes-button').classList.remove('hide');
             },
           });
         },
@@ -90,6 +91,23 @@ function beginJoin(signature) {
 }
 
 beginJoin(meetingConfig.signature);
+
+class ComponentToPrint extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+
+  createMarkup(params) {
+    return {__html: params};
+  }
+  render(){
+   
+    return (
+      <div id="notes-render" dangerouslySetInnerHTML={this.createMarkup(draftToHtml(this.props.content))}>
+      </div>
+    );
+  }
+}
 
 class MyEditor extends React.Component {
   constructor(props) {
@@ -135,9 +153,19 @@ class MyEditor extends React.Component {
       <div>
         <div id="notes-header">
           <div class="chat-participant-header">Notes</div>
-          <button onClick={this.hideNotes} id="btn-close-notes">
-            <i class="far fa-times-circle"></i>
-          </button>
+          <div>
+            <ReactToPrint
+              trigger={() => 
+                <button onClick={console.log('print call')} id="btn-print-notes">
+                  <i class="fas fa-print"></i>
+                </button>
+              }
+              content={() => this.componentRef}
+            />
+            <button onClick={this.hideNotes} id="btn-close-notes">
+              <i class="far fa-times-circle"></i>
+            </button>
+          </div>
         </div>
         <DraftailEditor
           enableHorizontalRule
@@ -163,7 +191,8 @@ class MyEditor extends React.Component {
             { type: INLINE_STYLE.UNDERLINE }
           ]}
         />
-      </div>
+        <ComponentToPrint ref={el => this.componentRef = el} content={convertToRaw(this.state.editorState.getCurrentContent())}/>
+      </div>      
     );
   }
 }
