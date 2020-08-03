@@ -73,10 +73,9 @@ function beginJoin(signature) {
             success: function (res) {
               document.addEventListener('DOMContentLoaded', function() {
                 document.getElementById('wc-container-left').classList.add('show-participants');
-                var wrapper = document.createElement('p');
-                document.getElementById("wc-footer-left").appendChild(wrapper);
               }, false);
               console.log("success getCurrentUser", res.result.currentUser);
+              document.getElementById('notes-button').classList.remove('hide');
             },
           });
         },
